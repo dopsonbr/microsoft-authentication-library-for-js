@@ -77,12 +77,13 @@ export abstract class BaseClient {
     protected createDefaultTokenRequestHeaders(): Record<string, string> {
         const headers = this.createDefaultLibraryHeaders();
         headers[HeaderNames.CONTENT_TYPE] = Constants.URL_FORM_CONTENT_TYPE;
-        headers[HeaderNames.X_MS_LIB_CAPABILITY] = HeaderNames.X_MS_LIB_CAPABILITY_VALUE;
-
-        if (this.serverTelemetryManager) {
-            headers[HeaderNames.X_CLIENT_CURR_TELEM] = this.serverTelemetryManager.generateCurrentRequestHeaderValue();
-            headers[HeaderNames.X_CLIENT_LAST_TELEM] = this.serverTelemetryManager.generateLastRequestHeaderValue();
-        }
+        // todo figure out how to best parameterize these so clients can disable
+        // headers[HeaderNames.X_MS_LIB_CAPABILITY] = HeaderNames.X_MS_LIB_CAPABILITY_VALUE;
+        //
+        // if (this.serverTelemetryManager) {
+        //     headers[HeaderNames.X_CLIENT_CURR_TELEM] = this.serverTelemetryManager.generateCurrentRequestHeaderValue();
+        //     headers[HeaderNames.X_CLIENT_LAST_TELEM] = this.serverTelemetryManager.generateLastRequestHeaderValue();
+        // }
 
         return headers;
     }
@@ -93,11 +94,12 @@ export abstract class BaseClient {
     protected createDefaultLibraryHeaders(): Record<string, string> {
         const headers: Record<string, string> = {};
 
+        // todo figure out how to best parameterize these so clients can disable
         // client info headers
-        headers[AADServerParamKeys.X_CLIENT_SKU] = this.config.libraryInfo.sku;
-        headers[AADServerParamKeys.X_CLIENT_VER] = this.config.libraryInfo.version;
-        headers[AADServerParamKeys.X_CLIENT_OS] = this.config.libraryInfo.os;
-        headers[AADServerParamKeys.X_CLIENT_CPU] = this.config.libraryInfo.cpu;
+        // headers[AADServerParamKeys.X_CLIENT_SKU] = this.config.libraryInfo.sku;
+        // headers[AADServerParamKeys.X_CLIENT_VER] = this.config.libraryInfo.version;
+        // headers[AADServerParamKeys.X_CLIENT_OS] = this.config.libraryInfo.os;
+        // headers[AADServerParamKeys.X_CLIENT_CPU] = this.config.libraryInfo.cpu;
 
         return headers;
     }
@@ -126,7 +128,7 @@ export abstract class BaseClient {
 
     /**
      * Updates the authority object of the client. Endpoint discovery must be completed.
-     * @param updatedAuthority 
+     * @param updatedAuthority
      */
     updateAuthority(updatedAuthority: Authority): void {
         if (!updatedAuthority.discoveryComplete()) {
